@@ -8,6 +8,8 @@ segment = SevenSegment(address=0x70)
 
 print "Press CTRL+Z to exit."
 
+digit0 = 0
+
 while(True):
   now = datetime.datetime.now()
   hour = now.hour
@@ -19,7 +21,13 @@ while(True):
   elif hour > 12:
     hour = hour - 12
   if hour >= 10:
-    segment.writeDigit(0, 1)
+    if digit0 == 0:
+      segment.writeDigit(0, 1)
+      digit0 = 1
+  else:
+    if digit0 == 1:
+      segment.disp.clear()
+      digit0 = 0
   segment.writeDigit(1, hour % 10)
   segment.writeDigit(3, int(minute / 10))
   segment.writeDigit(4, minute % 10, pm)
